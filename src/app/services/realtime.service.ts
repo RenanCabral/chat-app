@@ -6,17 +6,30 @@ import * as signalR from "@microsoft/signalr"
 })
 export class RealtimeService {
 
-  constructor() { }
+  constructor() {}
 
-  public startConnection(url: string){
+  private urlHub = 'http://localhost:5158/chatHub';
+  private hubConnection = new signalR.HubConnectionBuilder()
+                                      .withUrl(this.urlHub)
+                                      .build();
 
-   var hubConnection = new signalR.HubConnectionBuilder()
-                             .withUrl(url)
-                             .build();
-
-   hubConnection.start()
+  public startConnection() {
+    this.hubConnection.start()
                 .then(()=> console.log("Connection started"))
                 .catch(error => console.log('Error while starting connection: ' + error));
-      
+  }
+
+  public send(user: string, message: string) {
+    this.hubConnection.invoke("SendMessage", user, message)
+    .catch(error => {
+      console.log(error);
+    });
+  }
+
+  public addListener() {
+    this.hubConnection.on("ReceiveMessage", (user, message) => {
+      console.log(user);
+      console.log(message);
+    })
   }
 }
