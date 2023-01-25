@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { RealtimeService } from './services/realtime.service';
 import {User} from './models/user.model';
@@ -11,10 +10,26 @@ import {Message} from './models/message.model';
 })
 export class AppComponent {
 
-  constructor(private realtimeService: RealtimeService, private httpClient: HttpClient) {  }
+  constructor(private realtimeService: RealtimeService) {  }
 
-  public user: User;
-  public message: Message;
+  user: User;
+  message: Message;
+  dataSource: any[];
+  displayedColumns: string[] = ["user", "comment"];
+
+  loadComments() {
+    this.dataSource = [
+      {sender: "TestSender1 says:", message: "message1Test"},
+      {sender: "TestSender1 says:", message: "message1Test"},
+      {sender: "TestSender1 says:", message: "message1Test"},
+      {sender: "TestSender1 says:", message: "message1Test"},
+      {sender: "TestSender1 says:", message: "message1Test"},
+      {sender: "TestSender1 says:", message: "message1Test"},
+      {sender: "TestSender1 says:", message: "message1Test"},
+      {sender: "TestSender1 says:", message: "message1Test"},
+      {sender: "TestSender2", message: "message1Testxsxzx"}
+    ];
+  }
 
   ngOnInit() {
     this.realtimeService.startConnection();
@@ -23,6 +38,7 @@ export class AppComponent {
     this.user = new User();
     this.message = new Message();
     this.message.Sender = this.user;
+    this.loadComments();
   }
 
   public sendMessage() {

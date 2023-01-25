@@ -10,6 +10,7 @@ import { MatButtonModule  } from '@angular/material/button';
 import { MatFormFieldModule  } from '@angular/material/form-field';
 import { MatInputModule  } from '@angular/material/input';
 import { MatSelectModule  } from '@angular/material/select';
+import {MatTableModule} from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -26,6 +27,7 @@ import { FormsModule } from '@angular/forms';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatTableModule,
     FormsModule
   ],
   providers: [],

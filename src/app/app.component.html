@@ -296,12 +296,21 @@
 <div class="content" role="main">
 
   <form name="mainForm">
-    <div>
-      <mat-form-field>
-        <mat-label>Name</mat-label>
-        <input matInput type="text" [(ngModel)]="user.Name" name="userName" />
-      </mat-form-field>
-    </div>
+    
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="user">
+        <th mat-header-cell *matHeaderCellDef> User </th>
+        <td mat-cell *matCellDef="let item"> {{item.sender}} </td>
+      </ng-container>
+     
+      <ng-container matColumnDef="comment">
+        <th mat-header-cell *matHeaderCellDef> Comment </th>
+        <td mat-cell *matCellDef="let item"> {{item.message}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
 
     <div>
         <mat-form-field>
