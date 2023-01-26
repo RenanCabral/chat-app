@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as signalR from "@microsoft/signalr"
+import { Observable, of } from 'rxjs';
+import { Message } from '../models/message.model';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,10 +29,16 @@ export class RealtimeService {
     });
   }
 
-  public addListener() {
-    this.hubConnection.on("ReceiveMessage", (user, message) => {
-      console.log(user);
-      console.log(message);
-    })
+  public addListener(callback: Function) {
+    this.hubConnection.on("ReceiveMessage", (sender, text) => {
+      
+      let message: Message = new Message();
+      message.Text = text;
+
+      message.Sender = new User();
+      message.Sender.Name= sender;
+      
+      callback(message);
+    });
   }
 }

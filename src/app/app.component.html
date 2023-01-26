@@ -300,12 +300,12 @@
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="user">
         <th mat-header-cell *matHeaderCellDef> User </th>
-        <td mat-cell *matCellDef="let item"> {{item.sender}} </td>
+        <td mat-cell *matCellDef="let item"> {{item.Sender.Name}} </td>
       </ng-container>
      
       <ng-container matColumnDef="comment">
         <th mat-header-cell *matHeaderCellDef> Comment </th>
-        <td mat-cell *matCellDef="let item"> {{item.message}} </td>
+        <td mat-cell *matCellDef="let item"> {{item.Text}} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

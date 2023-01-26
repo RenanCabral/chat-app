@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RealtimeService } from './services/realtime.service';
-import {User} from './models/user.model';
-import {Message} from './models/message.model';
+import { User } from './models/user.model';
+import { Message } from './models/message.model';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-root',
@@ -10,35 +11,25 @@ import {Message} from './models/message.model';
 })
 export class AppComponent {
 
-  constructor(private realtimeService: RealtimeService) {  }
-
   user: User;
   message: Message;
-  dataSource: any[];
+  dataSource = new MatTableDataSource<Message>;
   displayedColumns: string[] = ["user", "comment"];
 
-  loadComments() {
-    this.dataSource = [
-      {sender: "TestSender1 says:", message: "message1Test"},
-      {sender: "TestSender1 says:", message: "message1Test"},
-      {sender: "TestSender1 says:", message: "message1Test"},
-      {sender: "TestSender1 says:", message: "message1Test"},
-      {sender: "TestSender1 says:", message: "message1Test"},
-      {sender: "TestSender1 says:", message: "message1Test"},
-      {sender: "TestSender1 says:", message: "message1Test"},
-      {sender: "TestSender1 says:", message: "message1Test"},
-      {sender: "TestSender2", message: "message1Testxsxzx"}
-    ];
-  }
+  constructor(private realtimeService: RealtimeService) {}
 
   ngOnInit() {
-    this.realtimeService.startConnection();
-    this.realtimeService.addListener();
-
     this.user = new User();
+    this.user.Name = "Test User";
+
     this.message = new Message();
     this.message.Sender = this.user;
-    this.loadComments();
+
+    this.realtimeService.startConnection();
+    
+    this.realtimeService.addListener((message : Message) => {
+      this.dataSource.data = this.dataSource.data.concat([message]);
+    });
   }
 
   public sendMessage() {
