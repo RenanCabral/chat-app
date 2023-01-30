@@ -12,10 +12,12 @@ import { MatInputModule  } from '@angular/material/input';
 import { MatSelectModule  } from '@angular/material/select';
 import {MatTableModule} from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
+import { ConversationComponent } from './conversation/conversation.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ConversationComponent
   ],
   imports: [
     BrowserModule,
