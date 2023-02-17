@@ -3,6 +3,7 @@ import { RealtimeService } from '../services/realtime.service';
 import { User } from '../models/user.model';
 import { Message } from '../models/message.model';
 import { MatTableDataSource } from '@angular/material/table';
+import { ConversationService } from '../services/conversation.service';
 
 @Component({
   selector: 'app-conversation',
@@ -15,7 +16,7 @@ export class ConversationComponent {
   dataSource = new MatTableDataSource<Message>;
   displayedColumns: string[] = ["user", "comment"];
 
-  constructor(private realtimeService: RealtimeService) {}
+  constructor(private conversationService: ConversationService) {}
 
   ngOnInit() {
     this.user = new User();
@@ -24,14 +25,19 @@ export class ConversationComponent {
     this.message = new Message();
     this.message.Sender = this.user;
 
-    this.realtimeService.startConnection();
-    
-    this.realtimeService.addListener((message : Message) => {
-      this.dataSource.data = this.dataSource.data.concat([message]);
-    });
+    this.conversationService.setIncomingMessageHandler(this.receiveMessage);
   }
 
   public sendMessage() {
-    this.realtimeService.send(this.user.Name, this.message.Text);
+
+    var message = new Message();
+    message.Sender = this.user;
+    message.Text = this.message.Text;
+
+    this.conversationService.sendMessage(message);
+  }
+
+  public receiveMessage(message : Message) {
+      this.dataSource.data = this.dataSource.data.concat([message]);
   }
 }

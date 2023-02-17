@@ -9,7 +9,9 @@ import { User } from '../models/user.model';
 })
 export class RealtimeService {
 
-  constructor() {}
+  constructor() {
+    this.startConnection();
+  }
 
   private urlHub = 'http://localhost:5158/chatHub';
   private hubConnection = new signalR.HubConnectionBuilder()
@@ -41,4 +43,9 @@ export class RealtimeService {
       callback(message);
     });
   }
+
+  public invokeHub(methodName: string, ...args : any[]) : Promise<any> {
+    return this.hubConnection.invoke(methodName, args);
+  }
+  
 }
